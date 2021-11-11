@@ -1,1 +1,33 @@
 /* TODO: Make it awesome */
+
+table tbody tr td, table thead th{
+    border: 2px black solid;
+    padding: 0.5rem;
+}
+
+/* Adjust nav bar slightly */
+
+table {
+    margin: 1rem;
+}
+
+.deleteButton {
+    text-align: center;
+    color: red;
+    cursor: pointer;
+    background-color: rgb(255, 211, 211);
+}
+
+#titleLi {
+    font-size: 24px;
+    margin: 10px;
+    margin-left: 0;
+}
+
+ul {
+    margin: 1rem;
+}
+
+li{
+    margin-bottom: 3px;
+}

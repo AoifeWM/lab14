@@ -3,7 +3,12 @@
 'use strict';
 
 // Set up an empty cart for use on this page.
-const cart = new Cart([]);
+const cart = new Cart(JSON.parse(localStorage.getItem('cart')) || []);
+
+const ul = document.createElement('ul');
+const cartPreview = document.getElementById('cartContents');
+cartPreview.appendChild(ul);
+
 
 // On screen load, we call this method to put all of the bus mall options
 // (the things in the Product.allProducts array) into the drop down list.
@@ -29,7 +34,8 @@ function handleSubmit(event) {
   event.preventDefault();
   // Do all the things ...
   addSelectedItemToCart();
-  cart.saveToLocalStorage();
+  console.log(cart);
+  cart.saveToLocalStorage(cart.items);
   updateCounter();
   updateCartPreview();
 
@@ -39,7 +45,7 @@ function handleSubmit(event) {
 function addSelectedItemToCart() {
   // DONE: suss out the item picked from the select list
   let itemPicked = document.getElementById('items').value;
-  
+
   // DONE: get the quantity
   let quantityPicked = document.getElementById('quantity').value;
 
@@ -52,13 +58,23 @@ function updateCounter() {
   document.getElementById('itemCount').textContent = `${cart.items.length} item(s)`;
 }
 
-// TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
+// TODO: As you add items into the cart, show them (item & quantity) in the cart preview div (cartContents)
 function updateCartPreview() {
+    ul.innerHTML = '';
+    let titleLi = document.createElement('li');
+    titleLi.id = 'titleLi';
+    titleLi.textContent = "Your cart:";
+    ul.appendChild(titleLi);
+    for(let i = 0; i < cart.items.length; i++){
+      let li = document.createElement('li');
+      li.textContent = (`${cart.items[i].product} (x${cart.items[i].quantity})`);
+      ul.appendChild(li);
+    }
   // TODO: Get the item and quantity from the form
   // same as above
   // TODO: Add a new element to the "cartContents" (ID) div on index.html with that information
   // Get a window into the DOM
-  // create element, give it context, append it to the parrent (parent is our window into the DOM)
+  // create element, give it context, append it to the parent (parent is our window into the DOM)
 }
 
 // Set up the "submit" event listener on the form.
@@ -70,6 +86,8 @@ catalogForm.addEventListener('submit', handleSubmit);
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
 populateForm();
+updateCounter();
+updateCartPreview();
 
 // tbody
 // .innerHTML = '';
